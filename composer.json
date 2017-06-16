@@ -1,0 +1,22 @@
+{
+    "name": "groovey/sso",
+    "description": "Groovey SSO Package.",
+    "license": "MIT",
+    "keywords": ["silex", "groovey"],
+    "authors": [
+        {
+            "name": "Harold Kim Cantil",
+            "email": "pokoot@gmail.com"
+        }
+    ],
+    "require": {
+        "silex/silex" : "~2.0",
+        "illuminate/database" : "~5.2",
+        "illuminate/events": "~5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Groovey\\SSO\\": "src"
+        }
+    }
+}
