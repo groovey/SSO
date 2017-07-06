@@ -33,6 +33,21 @@ $app->register(new DBServiceProvider(), [
 $console = $app['console'];
 
 $console->addCommands([
+
+        new Groovey\Migration\Commands\About(),
+        new Groovey\Migration\Commands\Init($app),
+        new Groovey\Migration\Commands\Reset($app),
+        new Groovey\Migration\Commands\Listing($app),
+        new Groovey\Migration\Commands\Drop($app),
+        new Groovey\Migration\Commands\Status($app),
+        new Groovey\Migration\Commands\Create($app),
+        new Groovey\Migration\Commands\Up($app),
+        new Groovey\Migration\Commands\Down($app),
+
+        new Groovey\Seeder\Commands\About(),
+        new Groovey\Seeder\Commands\Init($app),
+        new Groovey\Seeder\Commands\Create($app),
+        new Groovey\Seeder\Commands\Run($app),
         new Groovey\Migration\Commands\About(),
         new Groovey\Migration\Commands\Init($app),
         new Groovey\Migration\Commands\Reset($app),
