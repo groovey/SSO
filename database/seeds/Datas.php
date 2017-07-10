@@ -14,7 +14,7 @@ class Datas extends Seeder
                 'status'      => 'active',
                 'name'        => 'App 1',
                 'description' => $faker->sentence,
-                'token'       => $faker->regexify('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}'),
+                'token'       => '1234567890',
 
             ];
 

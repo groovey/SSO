@@ -61,10 +61,10 @@ class SSOTest extends PHPUnit_Framework_TestCase
         $app = $this->app;
 
         $data = [
-            'app'      => '123456',
-            'token'    => 'token',
-            'user'     => 'test',
-            'password' => '12345',
+            'app'      => '1',
+            'token'    => '1234567890',
+            'email'    => 'test1@gmail.com',
+            'password' => 'test1password',
         ];
 
         $response = $app['sso']->auth($data);
