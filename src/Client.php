@@ -3,10 +3,8 @@
 namespace Groovey\SSO;
 
 use Pimple\Container;
-use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
 
-class SSO
+class Client
 {
     private $app;
     private $yaml;
@@ -25,10 +23,8 @@ class SSO
         return [
             'status'     => 'success',
             'first_name' => 'Harold Kim',
-            'last_name'  => 'Cantil'
+            'last_name'  => 'Cantil',
 
         ];
-
     }
-
 }

@@ -26,7 +26,7 @@ class SSOTest extends PHPUnit_Framework_TestCase
         $app->register(new TesterServiceProvider());
         $app->register(new TraceServiceProvider());
         $app->register(new SSOServiceProvider(), [
-                'sso.domain' => 'http://sso.groovey.dev',
+                'sso.domain' => 'http://sso.oneykey.dev',
             ]);
 
         $app->register(new DBServiceProvider(), [
@@ -56,7 +56,7 @@ class SSOTest extends PHPUnit_Framework_TestCase
         $this->app = $app;
     }
 
-    public function testAuth()
+    public function testClientAuth()
     {
         $app = $this->app;
 
@@ -64,12 +64,11 @@ class SSOTest extends PHPUnit_Framework_TestCase
             'app'      => '1',
             'token'    => '1234567890',
             'email'    => 'test1@gmail.com',
-            'password' => 'test1password',
+            'password' => 'test1',
         ];
 
-        $response = $app['sso']->auth($data);
+        $response = $app['sso.client']->auth($data);
         print_r($response);
-
     }
 
     /*

@@ -20,7 +20,6 @@ class Datas extends Seeder
 
         }, $truncate = true);
 
-
         $this->define('users', function ($data) use ($faker) {
 
             $email    = $data->email;
@@ -40,28 +39,26 @@ class Datas extends Seeder
 
         }, $truncate = true);
 
-
-        $this->define('apps_users', function($data) use ($faker) {
+        $this->define('apps_users', function ($data) use ($faker) {
             return [
                 'app_id'  => $data->app_id,
-                'user_id' => $data->user_id
+                'user_id' => $data->user_id,
             ];
 
         }, $truncate = true);
-
     }
 
-    public function usersFixtures($index){
-
+    public function usersFixtures($index)
+    {
         $fixtures = [
             [
                 'email'    => 'test1@gmail.com',
-                'password' => 'test1password',
+                'password' => '$2y$12$clwPhVGTB/dHNSYY6fTKlOKmwIh7Z7OtdDAWCHCmLA7UPc9xVYiKi', // test1
             ],
             [
                 'email'    => 'test2@gmail.com',
-                'password' => 'test2password',
-            ]
+                'password' => '$2y$12$IwkfKBKFjtHA3VKT8m1tuONSlODXAejP4bv7NhcXcS5Hy4Sb1tHlO', // test2
+            ],
         ];
 
         return $fixtures[$index];
@@ -73,8 +70,7 @@ class Datas extends Seeder
 
             $appId = $this->factory('apps')->create();
 
-            for ($i =0; $i < 2; $i++) {
-
+            for ($i = 0; $i < 2; ++$i) {
                 $data   = $this->usersFixtures($i);
                 $userId = $this->factory('users')->create($data);
 

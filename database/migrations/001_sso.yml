@@ -42,8 +42,8 @@ up: >
 
 down: >
 
-    DROP TABLE apps;
-
     DROP TABLE users;
+
+    DROP TABLE apps;
 
     DROP TABLE apps_users;
