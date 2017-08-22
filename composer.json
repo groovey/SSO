@@ -17,7 +17,9 @@
         "groovey/db" : "dev-master",
         "groovey/seeder" : "dev-master",
         "groovey/support" : "dev-master",
-        "groovey/tester" : "dev-master"
+        "groovey/tester" : "dev-master",
+        "groovey/jwt" : "dev-master",
+        "groovey/security" : "dev-master"
     },
     "autoload": {
         "psr-4": {
