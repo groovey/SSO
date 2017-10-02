@@ -15,4 +15,9 @@ class Server
         $this->app    = $app;
         $this->domain = $domain;
     }
+
+    public function auth(array $data)
+    {
+        $domain = $this->domain;
+    }
 }

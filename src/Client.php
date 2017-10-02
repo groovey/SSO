@@ -18,13 +18,14 @@ class Client
 
     public function auth(array $data)
     {
-        $app = $this->app;
+        $app      = $this->app;
+        $domain   = $this->domain;
+        $url      = $domain.'/auth';
+        $response = $app['http']->request('POST', $url, $data);
+        $code     = $response->getStatusCode();
+        $header   = $response->getHeaderLine('content-type');
+        $body     = $response->getBody();
 
-        return [
-            'status'     => 'success',
-            'first_name' => 'Harold Kim',
-            'last_name'  => 'Cantil',
-
-        ];
+        return (string) $body;
     }
 }

@@ -5,6 +5,7 @@ use Symfony\Component\Console\Command\Command;
 use Groovey\DB\Providers\DBServiceProvider;
 use Groovey\SSO\Providers\SSOServiceProvider;
 use Groovey\Support\Providers\TraceServiceProvider;
+use Groovey\Support\Providers\HttpServiceProvider;
 use Groovey\Tester\Providers\TesterServiceProvider;
 use Groovey\Migration\Commands\Init;
 use Groovey\Migration\Commands\Reset;
@@ -25,8 +26,10 @@ class SSOTest extends PHPUnit_Framework_TestCase
 
         $app->register(new TesterServiceProvider());
         $app->register(new TraceServiceProvider());
+        $app->register(new HttpServiceProvider());
+
         $app->register(new SSOServiceProvider(), [
-                'sso.domain' => 'http://sso.oneykey.dev',
+                'sso.domain' => 'http://sso.onekey.dev',
             ]);
 
         $app->register(new DBServiceProvider(), [
