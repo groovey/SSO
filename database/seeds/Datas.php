@@ -2,6 +2,8 @@
 
 // $ php groovey seed:run Datas
 
+use Groovey\Security\Password;
+
 class Datas extends Seeder
 {
     public function init()
@@ -14,7 +16,7 @@ class Datas extends Seeder
                 'status'      => 'active',
                 'name'        => 'App 1',
                 'description' => $faker->sentence,
-                'token'       => '1234567890',
+                'token'       => 'nwd0ZiPkoBDqGrhw',
 
             ];
 
@@ -53,11 +55,11 @@ class Datas extends Seeder
         $fixtures = [
             [
                 'email'    => 'test1@gmail.com',
-                'password' => '$2y$12$clwPhVGTB/dHNSYY6fTKlOKmwIh7Z7OtdDAWCHCmLA7UPc9xVYiKi', // test1
+                'password' => Password::hash('test1'),
             ],
             [
                 'email'    => 'test2@gmail.com',
-                'password' => '$2y$12$IwkfKBKFjtHA3VKT8m1tuONSlODXAejP4bv7NhcXcS5Hy4Sb1tHlO', // test2
+                'password' => Password::hash('test2'),
             ],
         ];
 

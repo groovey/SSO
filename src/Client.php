@@ -21,7 +21,13 @@ class Client
         $app      = $this->app;
         $domain   = $this->domain;
         $url      = $domain.'/auth';
-        $response = $app['http']->request('POST', $url, $data);
+        $payload  = $app['jwt']->encode($data);
+        $response = $app['http']->request('POST', $url,
+                [
+                    'headers'  => ['content-type' => 'application/json', 'Accept' => 'application/json'],
+                    'body' => $payload
+                ]
+            );
         $code     = $response->getStatusCode();
         $header   = $response->getHeaderLine('content-type');
         $body     = $response->getBody();

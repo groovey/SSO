@@ -7,6 +7,7 @@ use Groovey\SSO\Providers\SSOServiceProvider;
 use Groovey\Support\Providers\TraceServiceProvider;
 use Groovey\Support\Providers\HttpServiceProvider;
 use Groovey\Tester\Providers\TesterServiceProvider;
+use Groovey\JWT\Providers\JWTServiceProvider;
 use Groovey\Migration\Commands\Init;
 use Groovey\Migration\Commands\Reset;
 use Groovey\Migration\Commands\Up;
@@ -27,6 +28,10 @@ class SSOTest extends PHPUnit_Framework_TestCase
         $app->register(new TesterServiceProvider());
         $app->register(new TraceServiceProvider());
         $app->register(new HttpServiceProvider());
+
+        $app->register(new JWTServiceProvider(), [
+                'jwt.key' => 'W9NFjPk8Az5DPTbF',
+            ]);
 
         $app->register(new SSOServiceProvider(), [
                 'sso.domain' => 'http://sso.onekey.dev',
@@ -65,14 +70,34 @@ class SSOTest extends PHPUnit_Framework_TestCase
 
         $data = [
             'app'      => '1',
-            'token'    => '1234567890',
+            'token'    => 'nwd0ZiPkoBDqGrhw',
             'email'    => 'test1@gmail.com',
             'password' => 'test1',
         ];
 
         $response = $app['sso.client']->auth($data);
-        print_r($response);
+
+        echo $response;
+
+        $this->assertRegExp('/success/', $response);
     }
+
+    // public function testServerAuth()
+    // {
+
+    //     $app = $this->app;
+
+    //     $data = [
+    //         'app'      => 'MRD28O08TT',
+    //         'email'    => 'test1@gmail.com',
+    //         'password' => 'test1',
+    //     ];
+
+    //     // $response = $app['sso.server']->auth($data);
+
+    //     // print $response;
+
+    // }
 
     /*
     public function testMigrate()
