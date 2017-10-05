@@ -18,20 +18,22 @@ class Client
 
     public function auth(array $data)
     {
-        $app      = $this->app;
-        $domain   = $this->domain;
-        $url      = $domain.'/auth';
-        $payload  = $app['jwt']->encode($data);
-        $response = $app['http']->request('POST', $url,
-                [
-                    'headers'  => ['content-type' => 'application/json', 'Accept' => 'application/json'],
-                    'body' => $payload
-                ]
-            );
-        $code     = $response->getStatusCode();
-        $header   = $response->getHeaderLine('content-type');
-        $body     = $response->getBody();
+        $app     = $this->app;
+        $domain  = $this->domain;
+        $url     = $domain.'/auth';
+        $payload = $app['jwt']->encode($data);
+        $ch      = curl_init();
 
-        return (string) $body;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "payload=$payload");
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+
+        return $response;
     }
 }

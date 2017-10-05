@@ -20,14 +20,18 @@ class Server
     {
         $domain   = $this->domain;
         $appId    = $data['app'];
+        $token    = $data['token'];
         $email    = $data['email'];
         $password = $data['password'];
 
-        $app = $this->getApp($appId, $token);
+        $appInfo = $this->getApp($appId, $token);
+        print_r($appInfo);
 
-        $user = $this->getUser($email, $password);
-
+        $user = $this->getUser($email);
         print_r($user);
+
+        $validPassword = $this->validatePassword($password, $user);
+        var_dump($validPassword);
     }
 
     private function getApp($appId, $token)
@@ -41,24 +45,27 @@ class Server
                             ->limit(1)
                             ->get();
 
-        return $result;
+        return ($result) ? (array) $result[0] : null;
     }
 
-    private function getUser($email, $password)
+    private function getUser($email)
     {
-        $app    = $this->app;
-        $result = $app['db']::table('users')
+        $app      = $this->app;
+        $result   = $app['db']::table('users')
                     ->where([
                         ['email', '=', $email],
-                        ['password', '=', $password],
                     ])
                     ->limit(1)
                     ->get();
 
-        print_r($result);
-
-        return $result;
+        return ($result) ? (array) $result[0] : null;
     }
 
-    // private function validateAppUser()
+    private function validatePassword($password, $user)
+    {
+        $app    = $this->app;
+        $status = $app['password']->verify($password, $user['password']);
+
+        return $status;
+    }
 }
