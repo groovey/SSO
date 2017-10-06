@@ -81,9 +81,9 @@ class SSOTest extends PHPUnit_Framework_TestCase
 
         $response = $app['sso.client']->auth($data);
 
-        print_r($response);
-
-        // $this->assertRegExp('/success/', $response);
+        $this->assertArrayHasKey('status', $response);
+        $this->assertArrayHasKey('email', $response);
+        $this->assertEquals('Success', $response['status']);
     }
 
     public function testServerAuth()
@@ -99,11 +99,8 @@ class SSOTest extends PHPUnit_Framework_TestCase
 
         $response = $app['sso.server']->auth($data);
 
-        // print_r($response);
-
         $this->assertArrayHasKey('status', $response);
         $this->assertArrayHasKey('email', $response);
-
         $this->assertEquals('Success', $response['status']);
     }
 
