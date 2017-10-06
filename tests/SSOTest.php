@@ -64,14 +64,14 @@ class SSOTest extends PHPUnit_Framework_TestCase
                 new Drop($app),
             ]);
 
-        Database::init($app);
+        Database::create($app);
 
         $this->app = $app;
     }
 
     public function tearDown()
     {
-        Database::terminate($this->app);
+        Database::drop($this->app);
     }
 
     public function testClientAuth()
