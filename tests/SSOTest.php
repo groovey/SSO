@@ -6,6 +6,7 @@ use Groovey\DB\Providers\DBServiceProvider;
 use Groovey\SSO\Providers\SSOServiceProvider;
 use Groovey\Support\Providers\TraceServiceProvider;
 use Groovey\Support\Providers\HttpServiceProvider;
+use Groovey\Support\Providers\DateServiceProvider;
 use Groovey\Tester\Providers\TesterServiceProvider;
 use Groovey\JWT\Providers\JWTServiceProvider;
 use Groovey\Security\Providers\SecurityServiceProvider;
@@ -27,6 +28,7 @@ class SSOTest extends PHPUnit_Framework_TestCase
         $app['debug'] = true;
 
         $app->register(new TesterServiceProvider());
+        $app->register(new DateServiceProvider());
         $app->register(new TraceServiceProvider());
         $app->register(new HttpServiceProvider());
         $app->register(new SecurityServiceProvider());
@@ -79,9 +81,9 @@ class SSOTest extends PHPUnit_Framework_TestCase
 
         $response = $app['sso.client']->auth($data);
 
-        // TODO Response should be encoded too.
+        print_r($response);
 
-        $this->assertRegExp('/success/', $response);
+        // $this->assertRegExp('/success/', $response);
     }
 
     public function testServerAuth()
@@ -98,6 +100,11 @@ class SSOTest extends PHPUnit_Framework_TestCase
         $response = $app['sso.server']->auth($data);
 
         // print_r($response);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertArrayHasKey('email', $response);
+
+        $this->assertEquals('Success', $response['status']);
     }
 
     /*

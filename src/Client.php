@@ -34,6 +34,6 @@ class Client
 
         curl_close($ch);
 
-        return $response;
+        return $app['jwt']->decode($response);
     }
 }

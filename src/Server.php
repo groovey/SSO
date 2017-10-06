@@ -18,20 +18,48 @@ class Server
 
     public function auth(array $data)
     {
-        $domain   = $this->domain;
-        $appId    = $data['app'];
-        $token    = $data['token'];
-        $email    = $data['email'];
-        $password = $data['password'];
+        $domain      = $this->domain;
+        $appId       = $data['app'];
+        $token       = $data['token'];
+        $email       = $data['email'];
+        $password    = $data['password'];
+        $application = $this->getApp($appId, $token);
+        $user        = $this->getUser($email);
 
-        $appInfo = $this->getApp($appId, $token);
-        print_r($appInfo);
+        if (!$application) {
+            return $this->response('Fail', 'Invalid Application');
+        }
 
-        $user = $this->getUser($email);
-        print_r($user);
+        if (!$user) {
+            return $this->response('Fail', 'Invalid User');
+        }
 
         $validPassword = $this->validatePassword($password, $user);
-        var_dump($validPassword);
+        if (!$validPassword) {
+            return $this->response('Fail', 'Invalid Password');
+        }
+
+        $appUser = $this->validateAppUser($application, $user);
+        if (!$validPassword) {
+            return $this->response('Fail', 'Invalid Application User');
+        }
+
+        $this->updateLastLogin($user);
+
+        return [
+            'status'     => 'Success',
+            'first_name' => $user['first_name'],
+            'last_name'  => $user['last_name'],
+            'email'      => $user['email'],
+        ];
+    }
+
+    private function response($status, $message)
+    {
+        return [
+            'status'  => $status,
+            'message' => $message,
+        ];
     }
 
     private function getApp($appId, $token)
@@ -40,6 +68,7 @@ class Server
         $result = $app['db']::table('apps')
                             ->where([
                                 ['id', '=', $appId],
+                                ['status', '=', 'active'],
                                 ['token', '=', $token],
                             ])
                             ->limit(1)
@@ -54,6 +83,7 @@ class Server
         $result   = $app['db']::table('users')
                     ->where([
                         ['email', '=', $email],
+                        ['status', '=', 'active'],
                     ])
                     ->limit(1)
                     ->get();
@@ -67,5 +97,32 @@ class Server
         $status = $app['password']->verify($password, $user['password']);
 
         return $status;
+    }
+
+    private function validateAppUser($application, $user)
+    {
+        $app           = $this->app;
+        $applicationId = $application['id'];
+        $userId        = $user['id'];
+        $result        = $app['db']::table('apps_users')
+                            ->where([
+                                ['app_id', '=', $applicationId],
+                                ['user_id', '=', $userId],
+                            ])
+                            ->limit(1)
+                            ->get();
+
+        return ($result) ? (array) $result[0] : null;
+    }
+
+    private function updateLastLogin($user)
+    {
+        $app    = $this->app;
+        $userId = $user['id'];
+        $now    = $app['date']::now();
+
+        $app['db']::table('users')
+                    ->where('id', $userId)
+                    ->update(['last_login' => $now]);
     }
 }
