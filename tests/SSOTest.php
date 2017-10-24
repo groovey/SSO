@@ -89,7 +89,7 @@ class SSOTest extends PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('status', $response);
         $this->assertArrayHasKey('email', $response);
-        $this->assertEquals('Success', $response['status']);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testServerAuth()
@@ -107,6 +107,6 @@ class SSOTest extends PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('status', $response);
         $this->assertArrayHasKey('email', $response);
-        $this->assertEquals('Success', $response['status']);
+        $this->assertEquals('success', $response['status']);
     }
 }

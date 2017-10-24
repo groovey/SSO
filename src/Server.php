@@ -27,27 +27,27 @@ class Server
         $user        = $this->getUser($email);
 
         if (!$application) {
-            return $this->response('Fail', 'Invalid Application');
+            return $this->response('fail', 'Invalid Application');
         }
 
         if (!$user) {
-            return $this->response('Fail', 'Invalid User');
+            return $this->response('fail', 'Invalid User');
         }
 
         $validPassword = $this->validatePassword($password, $user);
         if (!$validPassword) {
-            return $this->response('Fail', 'Invalid Password');
+            return $this->response('fail', 'Invalid Password');
         }
 
         $appUser = $this->validateAppUser($application, $user);
         if (!$validPassword) {
-            return $this->response('Fail', 'Invalid Application User');
+            return $this->response('fail', 'Invalid Application User');
         }
 
         $this->updateLastLogin($user);
 
         return [
-            'status'     => 'Success',
+            'status'     => 'success',
             'first_name' => $user['first_name'],
             'last_name'  => $user['last_name'],
             'email'      => $user['email'],
